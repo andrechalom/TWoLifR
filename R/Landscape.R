@@ -7,7 +7,8 @@
 #' @param cell.size numerical. How many meters/kilometers should a single cell represent?
 #' @param land.shape,bound.condition character. Control whether the shape of the land should be treated as a square (default) or a circle inscribed in this square; and what is the boundary condition. These parameters have no effect on the actual landscape generated, but will be used passed to the simulation.
 #' @param cover numerical, between 0 and 1. What fraction of the landscape should consist on habitat?
-#' @param frag recuperation parameter for the Fahrig method. Is ignored for other types.
+#' @param frag recuperation parameter for the Fahrig method. Is ignored for other types. Higher values 
+#' are close to random noise, while lower values result in more realistic landshapes.
 #' @export
 #' @import stats
 Landscape <- function (numb.cells = 100, cell.size = 1, land.shape = c("square","circle"),
@@ -98,4 +99,20 @@ Landscape <- function (numb.cells = 100, cell.size = 1, land.shape = c("square",
 	land <- list(numb.cells = numb.cells, cell.size=cell.size, land.shape=land.shape, type=type, bound.condition=bound.condition, cover=cover, scape=scape)
 	class(land) <- "landscape"
 	return(land)
+}
+
+#' @param col1 habitat color
+#' @param col2 non-habitat color
+#' @export
+#' @import graphics
+#' @rdname Landscape
+plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
+ 	n = x$numb.cells
+ 	s <- seq(-n*x$cell.size/2, n*x$cell.size/2, length=n) # creates the x- and y- sequences for image
+ 	if (sum(x$scape) == n*n) { 
+ 		color = col1
+ 	} else {
+ 		color = c(col2, col1)
+ 	}
+ 	image(s, s, matrix(x$scape,ncol=n), col=color, ...)
 }
