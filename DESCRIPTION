@@ -1,8 +1,14 @@
 Package: TWoLifR
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph)
+Title: An R library For Agent-Based Simulations of Demography in Heterogeneus Landscapes
+Version: 0.0.1
+Authors@R: c(
+  person("Andre", "Chalom", email = "andrechalom@gmail.com", role = c("aut", "cre")),
+  person("Paulo", "Prado", email = "prado@ib.usp.br", role = c("aut")),
+  person("Marcelo", "Awade", email = "awadem@gmail.com", role = c("aut")),
+  person("Camila", "Mandai", email = "cayumandai@gmail.com", role = c("aut"))
+  )
+Description: This package aims to implement a Gillespie algorithm for individual based models of
+  birth, death and movement.
 Depends: R (>= 3.2.1)
-License: What license is it under?
+License: GPL-2
 LazyData: true
