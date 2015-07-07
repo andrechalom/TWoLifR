@@ -4,14 +4,15 @@
 #' the simulations will run. 
 #' @param numb.cells integer. Represents both the lenght AND width of the landscape, so numb.cells=100 creates a 100x100 landscape
 #' @param type character. Currently, three types of habitat fragmentation routines are implemented: random fragmentation (noise), contiguous blob removal (random walk removal) and Fahrig fragmentation.
-#' @param cell.size numerical. How many meters/kilometers should a single cell represent?
 #' @param land.shape,bound.condition character. Control whether the shape of the land should be treated as a square (default) or a circle inscribed in this square; and what is the boundary condition. These parameters have no effect on the actual landscape generated, but will be used passed to the simulation.
 #' @param cover numerical, between 0 and 1. What fraction of the landscape should consist on habitat?
 #' @param frag recuperation parameter for the Fahrig method. Is ignored for other types. Higher values 
 #' are close to random noise, while lower values result in more realistic landshapes.
+#' @examples
+#' plot(Landscape(cover=0.7, type="f", frag=0.01))
 #' @export
 #' @import stats
-Landscape <- function (numb.cells = 100, cell.size = 1, land.shape = c("square","circle"),
+Landscape <- function (numb.cells = 100, land.shape = c("square","circle"),
                        type=c("random","blob","fahrig"), 
                        bound.condition=c("absorptive", "periodical", "reflexive"), cover=1,frag=NULL) {
 	type=match.arg(type)
@@ -96,7 +97,8 @@ Landscape <- function (numb.cells = 100, cell.size = 1, land.shape = c("square",
       scape=as.numeric(scape)
     }
 	}
-	land <- list(numb.cells = numb.cells, cell.size=cell.size, land.shape=land.shape, type=type, bound.condition=bound.condition, cover=cover, scape=scape)
+	land <- list(numb.cells = numb.cells, land.shape=land.shape, type=type, 
+               bound.condition=bound.condition, cover=cover, scape=scape)
 	class(land) <- "landscape"
 	return(land)
 }
@@ -108,7 +110,7 @@ Landscape <- function (numb.cells = 100, cell.size = 1, land.shape = c("square",
 #' @rdname Landscape
 plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
  	n = x$numb.cells
- 	s <- seq(-n*x$cell.size/2, n*x$cell.size/2, length=n) # creates the x- and y- sequences for image
+ 	s <- seq(-n/2, n/2, length=n) # creates the x- and y- sequences for image
  	if (sum(x$scape) == n*n) { 
  		color = col1
  	} else {

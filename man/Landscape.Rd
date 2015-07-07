@@ -5,17 +5,14 @@
 \alias{plot.landscape}
 \title{Landscape generators}
 \usage{
-Landscape(numb.cells = 100, cell.size = 1, land.shape = c("square",
-  "circle"), type = c("random", "blob", "fahrig"),
-  bound.condition = c("absorptive", "periodical", "reflexive"), cover = 1,
-  frag = NULL)
+Landscape(numb.cells = 100, land.shape = c("square", "circle"),
+  type = c("random", "blob", "fahrig"), bound.condition = c("absorptive",
+  "periodical", "reflexive"), cover = 1, frag = NULL)
 
 \method{plot}{landscape}(x, col1 = "darkgreen", col2 = "grey70", ...)
 }
 \arguments{
 \item{numb.cells}{integer. Represents both the lenght AND width of the landscape, so numb.cells=100 creates a 100x100 landscape}
-
-\item{cell.size}{numerical. How many meters/kilometers should a single cell represent?}
 
 \item{land.shape,bound.condition}{character. Control whether the shape of the land should be treated as a square (default) or a circle inscribed in this square; and what is the boundary condition. These parameters have no effect on the actual landscape generated, but will be used passed to the simulation.}
 
@@ -33,5 +30,8 @@ are close to random noise, while lower values result in more realistic landshape
 \description{
 This function generates a landscape object, which represent a fragmented environment in which
 the simulations will run.
+}
+\examples{
+plot(Landscape(cover=0.7, type="f", frag=0.01))
 }
 
