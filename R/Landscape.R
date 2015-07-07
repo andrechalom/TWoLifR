@@ -99,10 +99,17 @@ Landscape <- function (numb.cells = 100, land.shape = c("square","circle"),
 	}
   land <- new.env()
   land$numb.cells <- numb.cells;  land$land.shape <- land.shape;
+  land$cover <- cover;
   land$type <- type; land$bound.condition <- bound.condition; land$scape <- scape
   land$maxid <- 0; land$population <- list()
 	class(land) <- "landscape"
 	return(land)
+}
+
+print.landscape <- function(x, ...) {
+  cat(paste0("Landscape object.\n  Shape ", x$land.shape, ", type ", x$type, ", boundary ", x$bound.condition,
+             ", height/width ", x$numb.cells, " habitat cover ", round(100*x$cover),"%", 
+             "\n  Population: ", length(x$population), " individuals\n"))
 }
 
 #' @param col1 habitat color

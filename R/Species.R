@@ -14,9 +14,10 @@
 #' @export
 Species <- function(birth.rate = 1, death.rate = 0.1, max.density = 10, incl.birth = 500, incl.death = 0,
                     radius = 1, matrix.death = 10, move.rate = 1, step = 1, visual.angle = 45) {
-  sp <- list(birth.rate = birth.rate, death.rate = death.rate, max.density = max.density, 
-             incl.birth = incl.birth, incl.death = incl.death, radius = radius, matrix.death = matrix.death,
-             move.rate = move.rate, step = step, visual.angle = visual.angle)
+  sp <- new.env()
+  sp$birth.rate = birth.rate; sp$death.rate = death.rate; sp$max.density = max.density
+  sp$incl.birth = incl.birth; sp$incl.death = incl.death; sp$radius = radius; sp$matrix.death = matrix.death
+  sp$move.rate = move.rate; sp$step = step; sp$visual.angle = visual.angle
   class(sp) <- "species"
   return(sp)
 }
