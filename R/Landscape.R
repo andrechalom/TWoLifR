@@ -97,8 +97,10 @@ Landscape <- function (numb.cells = 100, land.shape = c("square","circle"),
       scape=as.numeric(scape)
     }
 	}
-	land <- list(numb.cells = numb.cells, land.shape=land.shape, type=type, 
-               bound.condition=bound.condition, cover=cover, scape=scape)
+  land <- new.env()
+  land$numb.cells <- numb.cells;  land$land.shape <- land.shape;
+  land$type <- type; land$bound.condition <- bound.condition; land$scape <- scape
+  land$maxid <- 0; land$population <- list()
 	class(land) <- "landscape"
 	return(land)
 }
