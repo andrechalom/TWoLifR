@@ -61,6 +61,10 @@ zero <- function(...) 0
 #' @param FUN the generating function for initial positions. Will be called once for x and once for y
 #' for each individual. Common choices are "zero", "runif" or "rnorm"
 #' @param \dots further arguments for FUN. If FUN is a random number generator such as "runif", "n" might be ommited
+#' @section Details:
+#' The individual creation applies the landscape boundary condition to each individual. So, for the case of
+#' absorptive boundaries, the individual may be created and instantly killed, as it was created outside the
+#' boundaries of the landscape. Thus, it is advisable to check the population size after calling this function.
 #' @examples
 #' L <- Landscape(numb.cells=10)
 #' S <- Species(L)

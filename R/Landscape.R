@@ -22,7 +22,7 @@ Landscape <- function (numb.cells = 100, type=c("random","blob","fahrig","disc")
     stop("frag parameter must be specified for fahrig fragmentation!")
 	# scape represents the actual landscape
   if(type=="disc") {scape <- discLandscape(numb.cells); cover = base::pi/4}
-  else if(cover == 1) scape <- rep(1, numb.cells*numb.cells)
+  else if(cover == 1) scape <- matrix(1, numb.cells,numb.cells)
   else {
 		if(type=="random") scape <- randomLandscape(numb.cells, cover)
 		if(type=="blob") scape <- blobLandscape(numb.cells, cover)

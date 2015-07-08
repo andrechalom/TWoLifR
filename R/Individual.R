@@ -15,10 +15,11 @@ Individual <- function(species, x = 0, y = 0) {
   ind$species <- species;
   ind$x=x; ind$y=y; ind$id = species$maxid
   ind$orientation = runif(1, 0, 2*base::pi)
-  setrates(ind)
   class(ind) <- "individual"
   species$population <- c(species$population, ind)
-  return(ind)
+  ind <- apply.bc(ind)# applying the boundary condition MIGHT kill the individual, so it returns NULL
+  if (!is.null(ind)) setrates(ind)
+  return(ind) 
 }
 
 setrates <- function (x) {
@@ -42,6 +43,19 @@ print.individual <- function(x, ...) {
   cat(paste0("Individual number ",x$id," in ", round(x$x,2), ", ", round(x$y,2), "\n"))
 }
 
+apply.bc <- function(x) {
+  bc <- x$species$landscape$bound.condition
+  size <- x$species$landscape$numb.cells/2
+  if (bc == "absorptive") {
+    if (abs(x$x) > size | abs(x$y) > size) {
+      die(x); return(NULL)
+    }
+    # TODO: other boundaries
+  }
+  return(x)
+}
+
+
 #' @export
 move <- function(x) {
   # steps
@@ -51,14 +65,7 @@ move <- function(x) {
   x$y = x$y + sin(x$orientation) * x$species$step;
   # apply boundary condition 
   # WARNING: may kill individual!
-  bc <- x$species$landscape$bound.condition
-  size <- x$species$landscape$numb.cells/2
-  if (bc == "absorptive") {
-    if (abs(x$x) > size | abs(x$y) > size) {
-      die(x); return()
-    }
-    # TODO: other boundaries
-  }
+  apply.bc(x)
   # update neighborhood (self and others!!)
   # updates vital rates
   setrates(x)
