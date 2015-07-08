@@ -60,6 +60,12 @@ plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
   lapply(x$specieslist, plot) -> ignoreResult
 }
 
+#' @export
+#' @rdname Landscape
+#' @param landscape a landscape object
+total.N <- function(landscape) {
+  sum(sapply(landscape$specieslist, function(x) length(x$population)))
+}
 
 ### Landscape generating functions
 ### Internal methods

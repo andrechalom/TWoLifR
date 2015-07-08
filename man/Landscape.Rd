@@ -3,6 +3,7 @@
 \name{Landscape}
 \alias{Landscape}
 \alias{plot.landscape}
+\alias{total.N}
 \title{Landscape generators}
 \usage{
 Landscape(numb.cells = 100, type = c("random", "blob", "fahrig", "disc"),
@@ -10,6 +11,8 @@ Landscape(numb.cells = 100, type = c("random", "blob", "fahrig", "disc"),
   frag = NULL)
 
 \method{plot}{landscape}(x, col1 = "darkgreen", col2 = "grey70", ...)
+
+total.N(landscape)
 }
 \arguments{
 \item{numb.cells}{integer. Represents both the lenght AND width of the landscape, so numb.cells=100 creates a 100x100 landscape}
@@ -26,6 +29,8 @@ are close to random noise, while lower values result in more realistic landshape
 \item{col1}{habitat color}
 
 \item{col2}{non-habitat color}
+
+\item{landscape}{a landscape object}
 }
 \description{
 This function generates a landscape object, which represent a fragmented environment in which

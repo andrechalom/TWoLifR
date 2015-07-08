@@ -49,11 +49,10 @@ sqDist <- function(a1, a2) {
 NGillespieStep <- function(landscape) {
   if (class(landscape) != "landscape")
     stop ("landscape must be of class landscape!")
-
   sp <- 0; ind <- 0; time <- Inf
   for (i in 1:length(landscape$specieslist)) {
     pop <- landscape$specieslist[[i]]$population
-    for (j in 1:length(pop)) {
+    if(length(pop) > 0 ) for (j in 1:length(pop)) {
       draw = rexp(1, rate=pop[[j]]$sumrates)
       if (draw < time) {
         sp = i; ind = j; time = draw
@@ -63,6 +62,6 @@ NGillespieStep <- function(landscape) {
   # increments the world clock
   landscape$clock = landscape$clock + time
   # makes the chosen individual act
-  move(landscape$specieslist[[sp]]$population[[ind]])
+  act(landscape$specieslist[[sp]]$population[[ind]])
   return(landscape$clock)
 }
