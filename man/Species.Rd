@@ -4,11 +4,13 @@
 \alias{Species}
 \title{Creates a new species}
 \usage{
-Species(birth.rate = 1, death.rate = 0.1, max.density = 10,
+Species(landscape, birth.rate = 1, death.rate = 0.1, max.density = 10,
   incl.birth = 500, incl.death = 0, radius = 1, matrix.death = 10,
   move.rate = 1, step = 1, visual.angle = 45)
 }
 \arguments{
+\item{landscape}{the \code{\link{Landscape}} in which this species lives}
+
 \item{birth.rate}{the intrinsic birth rate of the species}
 
 \item{death.rate}{the intrinsic death rate of the species}
@@ -31,5 +33,11 @@ Species(birth.rate = 1, death.rate = 0.1, max.density = 10,
 }
 \description{
 Currently, every simulation contains a single species that must be created using this function.
+}
+\section{WARNING}{
+
+
+Every time the function Species is called, a new species is created
+and pushed to the landscape's species list.
 }
 

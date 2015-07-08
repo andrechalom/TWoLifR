@@ -20,7 +20,7 @@ Landscape(numb.cells = 100, land.shape = c("square", "circle"),
 
 \item{cover}{numerical, between 0 and 1. What fraction of the landscape should consist on habitat?}
 
-\item{frag}{recuperation parameter for the Fahrig method. Is ignored for other types. Higher values
+\item{frag}{fragmentation parameter for the Fahrig method. Is ignored for other types. Higher values
 are close to random noise, while lower values result in more realistic landshapes.}
 
 \item{col1}{habitat color}

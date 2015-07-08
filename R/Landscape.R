@@ -33,15 +33,16 @@ Landscape <- function (numb.cells = 100, land.shape = c("square","circle"),
   land$numb.cells <- numb.cells;  land$land.shape <- land.shape;
   land$cover <- cover;
   land$type <- type; land$bound.condition <- bound.condition; land$scape <- scape
-  land$maxid <- 0; land$population <- list()
+  land$maxsp <- 0; land$specieslist <- list()
 	class(land) <- "landscape"
 	return(land)
 }
 
+#' @export
 print.landscape <- function(x, ...) {
   cat(paste0("Landscape object.\n  Shape ", x$land.shape, ", type ", x$type, ", boundary ", x$bound.condition,
-             ", height/width ", x$numb.cells, " habitat cover ", round(100*x$cover),"%", 
-             "\n  Population: ", length(x$population), " individuals\n"))
+             ", height/width ", x$numb.cells, " habitat cover ", round(100*x$cover),"%\n"))
+  lapply(x$specieslist, print) -> ignoreResult
 }
 
 #' @param col1 habitat color
@@ -58,6 +59,7 @@ plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
  		color = c(col2, col1)
  	}
  	image(s, s, matrix(x$scape,ncol=n), col=color, ...)
+  lapply(x$specieslist, plot) -> ignoreResult
 }
 
 

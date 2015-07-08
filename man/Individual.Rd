@@ -4,16 +4,20 @@
 \alias{Individual}
 \title{Creates a new individual for the simulation}
 \usage{
-Individual(landscape, species, x = 0, y = 0)
+Individual(species, x = 0, y = 0)
 }
 \arguments{
-\item{landscape}{in which \code{\link{Landscape}} this individual lives}
-
 \item{species}{from which \code{\link{Species}} this individual is}
 
 \item{x,y}{initial position}
 }
 \description{
 Creates a new individual for the simulation
+}
+\section{WARNING}{
+
+
+Every time the function Individual is called, a new individual is created
+and pushed to the species population.
 }
 
