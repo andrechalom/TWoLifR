@@ -50,7 +50,7 @@ print.landscape <- function(x, ...) {
 #' @rdname Landscape
 plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
  	n = x$numb.cells
- 	s <- seq(-n/2, n/2, length=n) # creates the x- and y- sequences for image
+ 	s <- seq(-(n-1)/2, (n-1)/2, length=n) # creates the x- and y- sequences for image
  	if (sum(x$scape) == n*n) { 
  		color = col1
  	} else {

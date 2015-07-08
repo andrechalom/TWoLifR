@@ -14,12 +14,22 @@ Individual <- function(species, x = 0, y = 0) {
   ind <- new.env()
   ind$species <- species;
   ind$x=x; ind$y=y; ind$id = species$maxid
-  ind$sumrates = species$move.rate + species$birth.rate + species$death.rate ###### TODO!!!!!!
-  ind$real.birth = species$birth.rate; ind$real.death = species$death.rate
   ind$orientation = runif(1, 0, 2*base::pi)
+  setrates(ind)
   class(ind) <- "individual"
   species$population <- c(species$population, ind)
   return(ind)
+}
+
+setrates <- function (x) {
+  if (whereami(x) == 0) { # on the matrix
+    x$real.birth = 0
+    x$real.death = x$species$matrix.death * x$species$death.rate
+  } else { # on habitat
+    x$real.birth = x$species$birth.rate
+    x$real.death = x$species$death.rate
+  }
+  x$sumrates = x$species$move.rate + x$real.birth + x$real.death
 }
 
 #' @export
@@ -49,8 +59,9 @@ move <- function(x) {
     }
     # TODO: other boundaries
   }
-  # update neighborhood (self and others!!) and vital rates
-  # updates habitat information?
+  # update neighborhood (self and others!!)
+  # updates vital rates
+  setrates(x)
 }
 
 # finds the index of x in the list l
@@ -78,4 +89,10 @@ act <- function(x) {
   if (event < x$real.death) return(die(x))
   if (event < x$real.death + x$real.birth) return(clone(x))
   move(x)
+}
+
+whereami <- function(x) {
+  corn <- x$species$landscape$numb.cells/2 + 0.5
+  cat(x$x+ corn, ", ",x$y+corn, "\n")
+  x$species$landscape$scape[ round(x$x + corn), round(x$y + corn)]
 }
