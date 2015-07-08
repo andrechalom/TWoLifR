@@ -14,6 +14,7 @@ Individual <- function(species, x = 0, y = 0) {
   ind <- new.env()
   ind$species <- species;
   ind$x=x; ind$y=y; ind$id = species$maxid
+  ind$sumrates = species$move.rate ###### TODO!!!!!!
   ind$orientation = runif(1, 0, 2*base::pi)
   class(ind) <- "individual"
   species$population <- c(species$population, ind)

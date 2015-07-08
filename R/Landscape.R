@@ -29,8 +29,7 @@ Landscape <- function (numb.cells = 100, type=c("random","blob","fahrig","disc")
     if(type=="fahrig") scape <- fahrigLandscape(numb.cells, cover, frag)
   }
   land <- new.env()
-  land$numb.cells <- numb.cells;  
-  land$cover <- cover;
+  land$numb.cells <- numb.cells; land$cover <- cover; land$clock <- 0;
   land$type <- type; land$bound.condition <- bound.condition; land$scape <- scape
   land$maxsp <- 0; land$specieslist <- list()
 	class(land) <- "landscape"
