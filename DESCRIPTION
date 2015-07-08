@@ -10,5 +10,7 @@ Authors@R: c(
 Description: This package aims to implement a Gillespie algorithm for individual based models of
   birth, death and movement.
 Depends: R (>= 3.2.1)
+Imports: 
+    plotrix
 License: GPL-2
 LazyData: true

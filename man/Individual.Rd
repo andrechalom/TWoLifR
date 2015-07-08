@@ -2,14 +2,19 @@
 % Please edit documentation in R/Individual.R
 \name{Individual}
 \alias{Individual}
+\alias{plot.individual}
 \title{Creates a new individual for the simulation}
 \usage{
 Individual(species, x = 0, y = 0)
+
+\method{plot}{individual}(x, addradius = FALSE, ...)
 }
 \arguments{
 \item{species}{from which \code{\link{Species}} this individual is}
 
 \item{x,y}{initial position}
+
+\item{addradius}{logical. set to TRUE to draw the individual perception radius}
 }
 \description{
 Creates a new individual for the simulation

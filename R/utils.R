@@ -65,3 +65,34 @@ NGillespieStep <- function(landscape) {
   act(landscape$specieslist[[sp]]$population[[ind]])
   return(landscape$clock)
 }
+
+#' Simulation routines
+#' 
+#' Set up a new \code{\link{Landscape}} with preset Species and Individiduals, and run a Gillespie
+#' algorithm until a final time is reached. \code{runSSim} runs a single-species simulation and passes
+#' all parameters as named to the Landscape or Species constructor.
+#' @param maxtime Maximum simulation running time
+#' @param N initial population size
+#' @param \dots further arguments that will be passed to Landscape or Species. All options specified
+#' on \code{\dots} and not used for these functions will be passed to \code{\link{populate}}
+#' @export
+runSSim <- function(maxtime, N, ...) {
+  dots <- list(...)
+  # Create a Landscape
+  lopts <- names(dots) %in% names(formals(Landscape))
+  L <- do.call(Landscape, dots[lopts])
+  sopts <- names(dots) %in% names(formals(Species))
+  S <- do.call(Species, c(list(landscape=L), dots[sopts]))
+  do.call(populate, c(list(species=S, N=N), dots[!lopts && !sopts]))
+  pop.over.time <- total.N(L)
+  print(system.time(
+  while(total.N(L) & L$clock < maxtime) {
+    oldtime = L$clock
+    NGillespieStep(L)
+    if (round(oldtime) != round(L$clock))
+      pop.over.time <- c(pop.over.time, total.N(L))
+  }
+  ))
+  pop.over.time <- c(pop.over.time, total.N(L))
+  return(list(Landscape=L, pop.over.time=pop.over.time))
+}

@@ -22,6 +22,7 @@ Individual <- function(species, x = 0, y = 0) {
   return(ind) 
 }
 
+# internal: sets the vital rates
 setrates <- function (x) {
   if (whereami(x) == 0) { # on the matrix
     x$real.birth = 0
@@ -34,8 +35,11 @@ setrates <- function (x) {
 }
 
 #' @export
-plot.individual <- function(x, ...) {
+#' @param addradius logical. set to TRUE to draw the individual perception radius
+#' @rdname Individual
+plot.individual <- function(x, addradius = FALSE, ...) {
   points(x$x, x$y, ...)
+  if (addradius) plotrix::draw.circle(x$x, x$y, x$species$radius, border="darkorange", lty=2)
 }
 
 #' @export
@@ -43,6 +47,7 @@ print.individual <- function(x, ...) {
   cat(paste0("Individual number ",x$id," in ", round(x$x,2), ", ", round(x$y,2), "\n"))
 }
 
+# internal: applies boundary condition to the individual position
 apply.bc <- function(x) {
   bc <- x$species$landscape$bound.condition
   size <- x$species$landscape$numb.cells/2
@@ -55,8 +60,7 @@ apply.bc <- function(x) {
   return(x)
 }
 
-
-#' @export
+# moves
 move <- function(x) {
   # steps
   angle <- x$species$visual.angle
@@ -77,20 +81,20 @@ whoami <- function(x, l) {
   which(sapply(l, f))
 }
 
-#' @export
+# deletes the individual from the population
 die <- function(x) {
   # removes x from neighborhoods ### TODO
   # removes x from population
   x$species$population[[ whoami(x, x$species$population) ]] <- NULL
 }
 
-#' @export
-clone <- function(x) { # non-sexual reproduction
+# non-sexual reproduction
+clone <- function(x) { 
   new <- Individual(x$species, x$x, x$y)
   # adds new to neighborhoods
 }
 
-#' @export
+# internal: acts in one of three ways (die, clone or move) according to vital rates
 act <- function(x) {
   event <- runif(1,0,x$sumrates)
   if (event < x$real.death) return(die(x))
@@ -98,8 +102,8 @@ act <- function(x) {
   move(x)
 }
 
+# returns the habitat information for the individual
 whereami <- function(x) {
   corn <- x$species$landscape$numb.cells/2 + 0.5
-  cat(x$x+ corn, ", ",x$y+corn, "\n")
   x$species$landscape$scape[ round(x$x + corn), round(x$y + corn)]
 }

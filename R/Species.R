@@ -18,7 +18,7 @@
 #' @export
 Species <- function(landscape, birth.rate = 1, death.rate = 0.1,  
                     incl.birth = 500, incl.death = 0,
-                    radius = 1, matrix.death = 10, move.rate = 1, step = 1, visual.angle = base::pi/4) {
+                    radius = 5, matrix.death = 10, move.rate = 1, step = 1, visual.angle = base::pi/4) {
   if (class(landscape) != "landscape")
     stop ("landscape must be of class landscape!")
   sp <- new.env()
@@ -51,7 +51,7 @@ plot.species <- function(x, ...) {
   lapply(x$population, plot, col=x$id, ...)
 }
 
-#' @export
+# internal: convenience to return 0 for function populate
 zero <- function(...) 0
 #' Populates a species
 #' 
@@ -59,7 +59,7 @@ zero <- function(...) 0
 #' @param species the species
 #' @param N number of individuals to be generated
 #' @param FUN the generating function for initial positions. Will be called once for x and once for y
-#' for each individual. Common choices are "zero", "runif" or "rnorm"
+#' for each individual. Common choices are NULL (for starting position zero), "runif" or "rnorm"
 #' @param \dots further arguments for FUN. If FUN is a random number generator such as "runif", "n" might be ommited
 #' @section Details:
 #' The individual creation applies the landscape boundary condition to each individual. So, for the case of
@@ -70,10 +70,11 @@ zero <- function(...) 0
 #' S <- Species(L)
 #' populate(S, 20, "runif", min=-5, max=5)
 #' @export
-populate <- function(species, N, FUN="zero", ...) {
+populate <- function(species, N, FUN=NULL, ...) {
   dots <- list(...)
   if (class(species) != "species")
     stop ("species must be of class species!")
+  if (is.null(FUN)) FUN="zero"
   FUN = match.fun(FUN)
   if ("n" %in% names(formals(FUN)) && ! "n" %in% names(dots)) dots$n = 1
   for (i in 1:N) {
