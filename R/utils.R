@@ -45,7 +45,11 @@ sqDist <- function(a1, a2) {
 #' NGillespieStep implements a naive Gillespie algorithm for advancing time in the simulation. 
 #' It changes the objects in the Landscape as side-effect, and returns the total elapsed time.
 #' A common usage for it is: \code{while(L$clock < maxtime) print(NGillespieStep(L))}
+#'
+#' GillespieStep gives similar results, but using some optimization based on how exponential
+#' random variables work. 
 #' @export
+#' @rdname GillespieStep
 NGillespieStep <- function(landscape) {
   if (class(landscape) != "landscape")
     stop ("landscape must be of class landscape!")
@@ -66,11 +70,29 @@ NGillespieStep <- function(landscape) {
   return(landscape$clock)
 }
 
+#' @export
+#' @param landscape a landscape object
+GillespieStep <- function(landscape) {
+  if (class(landscape) != "landscape")
+    stop ("landscape must be of class landscape!")
+  if (length(landscape$specieslist) > 1) 
+    stop ("This algorithm is currently implemented for one species only")
+  rates <- sapply(landscape$specieslist[[1]]$population, function(i) i$sumrates)
+  ind <- sample(1:length(rates), 1, prob=rates)
+  time <- rexp(1, sum(rates))
+  # increments the world clock
+  landscape$clock = landscape$clock + time
+  # makes the chosen individual act
+  act(landscape$specieslist[[1]]$population[[ind]])
+  return(landscape$clock)
+}
 #' Simulation routines
 #' 
 #' Set up a new \code{\link{Landscape}} with preset Species and Individiduals, and run a Gillespie
 #' algorithm until a final time is reached. \code{runSSim} runs a single-species simulation and passes
 #' all parameters as named to the Landscape or Species constructor.
+#' 
+#' Exponential is just a wrapper for runSSim that enforces that the model is a simple exponential growth.
 #' @param maxtime Maximum simulation running time
 #' @param N initial population size
 #' @param \dots further arguments that will be passed to Landscape or Species. All options specified
@@ -88,11 +110,18 @@ runSSim <- function(maxtime, N, ...) {
   print(system.time(
   while(total.N(L) & L$clock < maxtime) {
     oldtime = L$clock
-    NGillespieStep(L)
+    GillespieStep(L)
     if (round(oldtime) != round(L$clock))
       pop.over.time <- c(pop.over.time, total.N(L))
   }
   ))
   pop.over.time <- c(pop.over.time, total.N(L))
   return(list(Landscape=L, pop.over.time=pop.over.time))
+}
+
+#' @export
+#' @rdname runSSim
+Exponential <- function(maxtime, N, ...) {
+  dots <- modifyList(list(...), list(numb.cells=1, cover=1, incl.birth=0, incl.death=0, move.rate=0))
+  do.call(runSSim, c(list(maxtime=maxtime, N=N, dots)))
 }

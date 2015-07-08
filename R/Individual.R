@@ -2,6 +2,7 @@
 #' 
 #' @param species from which \code{\link{Species}} this individual is
 #' @param x,y initial position
+#' @param \dots further arguments for plotting
 #' @section WARNING:
 #'
 #' Every time the function Individual is called, a new individual is created

@@ -26,11 +26,15 @@ total.N(landscape)
 \item{frag}{fragmentation parameter for the Fahrig method. Is ignored for other types. Higher values
 are close to random noise, while lower values result in more realistic landshapes.}
 
+\item{x}{a landscape object}
+
 \item{col1}{habitat color}
 
 \item{col2}{non-habitat color}
 
 \item{landscape}{a landscape object}
+
+\item{\dots}{further arguments for plotting functions}
 }
 \description{
 This function generates a landscape object, which represent a fragmented environment in which

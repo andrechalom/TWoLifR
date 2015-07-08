@@ -15,6 +15,8 @@ Individual(species, x = 0, y = 0)
 \item{x,y}{initial position}
 
 \item{addradius}{logical. set to TRUE to draw the individual perception radius}
+
+\item{\dots}{further arguments for plotting}
 }
 \description{
 Creates a new individual for the simulation

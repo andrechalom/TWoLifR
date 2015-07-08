@@ -8,6 +8,7 @@
 #' @param cover numerical, between 0 and 1. What fraction of the landscape should consist on habitat?
 #' @param frag fragmentation parameter for the Fahrig method. Is ignored for other types. Higher values 
 #' are close to random noise, while lower values result in more realistic landshapes.
+#' @param \dots further arguments for plotting functions
 #' @examples
 #' plot(Landscape(cover=0.7, type="f", frag=0.01))
 #' @export
@@ -43,6 +44,7 @@ print.landscape <- function(x, ...) {
   lapply(x$specieslist, print) -> ignoreResult
 }
 
+#' @param x a landscape object
 #' @param col1 habitat color
 #' @param col2 non-habitat color
 #' @export
