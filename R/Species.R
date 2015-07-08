@@ -34,6 +34,7 @@ Species <- function(landscape, birth.rate = 1, death.rate = 0.1,
   # adds itself to the landscape list
   landscape$maxsp = landscape$maxsp + 1
   sp$id = landscape$maxsp
+  sp$landscape = landscape
   class(sp) <- "species"
   landscape$specieslist <- c(landscape$specieslist, sp)
   return(sp)

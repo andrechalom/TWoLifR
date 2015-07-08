@@ -32,8 +32,12 @@ print.individual <- function(x, ...) {
 
 #' @export
 move <- function(x) {
+  # steps
   angle <- x$species$visual.angle
   x$orientation = x$orientation + runif(1, -angle/2, angle/2)
   x$x = x$x + cos(x$orientation) * x$species$step;
   x$y = x$y + sin(x$orientation) * x$species$step;
+  # apply boundary condition
+  # update neighborhood (self and others!!)
+  # updates habitat information?
 }

@@ -4,9 +4,9 @@
 \alias{Species}
 \title{Creates a new species}
 \usage{
-Species(landscape, birth.rate = 1, death.rate = 0.1, max.density = 10,
-  incl.birth = 500, incl.death = 0, radius = 1, matrix.death = 10,
-  move.rate = 1, step = 1, visual.angle = 45)
+Species(landscape, birth.rate = 1, death.rate = 0.1, incl.birth = 500,
+  incl.death = 0, radius = 1, matrix.death = 10, move.rate = 1,
+  step = 1, visual.angle = base::pi/4)
 }
 \arguments{
 \item{landscape}{the \code{\link{Landscape}} in which this species lives}
@@ -15,15 +15,13 @@ Species(landscape, birth.rate = 1, death.rate = 0.1, max.density = 10,
 
 \item{death.rate}{the intrinsic death rate of the species}
 
-\item{max.density}{the support capacity for this species}
-
 \item{incl.birth}{the slope in which the birth rate decreases with increasing density}
 
 \item{incl.death}{the slope in which the death rate increases with increasing density}
 
 \item{radius}{the perception radius of the species.}
 
-\item{matrix.death}{a constant multiplying the death rate in non-habitat patches}
+\item{matrix.death}{a constant multiplying the death rate in non-habitat patches (Currently unimplemented!)}
 
 \item{move.rate}{the intrinsic movement rate of the species}
 

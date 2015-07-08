@@ -5,18 +5,18 @@
 \alias{plot.landscape}
 \title{Landscape generators}
 \usage{
-Landscape(numb.cells = 100, land.shape = c("square", "circle"),
-  type = c("random", "blob", "fahrig"), bound.condition = c("absorptive",
-  "periodical", "reflexive"), cover = 1, frag = NULL)
+Landscape(numb.cells = 100, type = c("random", "blob", "fahrig", "disc"),
+  bound.condition = c("absorptive", "periodical", "reflexive"), cover = 1,
+  frag = NULL)
 
 \method{plot}{landscape}(x, col1 = "darkgreen", col2 = "grey70", ...)
 }
 \arguments{
 \item{numb.cells}{integer. Represents both the lenght AND width of the landscape, so numb.cells=100 creates a 100x100 landscape}
 
-\item{land.shape,bound.condition}{character. Control whether the shape of the land should be treated as a square (default) or a circle inscribed in this square; and what is the boundary condition. These parameters have no effect on the actual landscape generated, but will be used passed to the simulation.}
+\item{type}{character. Currently, three types of habitat fragmentation routines are implemented: random fragmentation (noise), contiguous blob removal (random walk removal) and Fahrig fragmentation. Also, you can specify "disc" to create a landscape that is close to a circular disc; in this case, the disc is fully made of habitat and the parameter cover is ignored.}
 
-\item{type}{character. Currently, three types of habitat fragmentation routines are implemented: random fragmentation (noise), contiguous blob removal (random walk removal) and Fahrig fragmentation.}
+\item{bound.condition}{character. Control what is the boundary condition. This parameter have no effect on the actual landscape generated, but will be passed to the simulation.}
 
 \item{cover}{numerical, between 0 and 1. What fraction of the landscape should consist on habitat?}
 
