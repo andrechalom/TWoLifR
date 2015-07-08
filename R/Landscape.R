@@ -56,7 +56,7 @@ plot.landscape <- function(x, col1="darkgreen", col2="grey70", ...) {
  	} else {
  		color = c(col2, col1)
  	}
- 	image(s, s, matrix(x$scape,ncol=n), col=color, ...)
+ 	image(s, s, x$scape, col=color, ...)
   lapply(x$specieslist, plot) -> ignoreResult
 }
 
@@ -71,32 +71,32 @@ total.N <- function(landscape) {
 ### Internal methods
 
 randomLandscape <- function(numb.cells, cover) {
-	scape <- rep(1, numb.cells*numb.cells)
+	scape <- matrix(1, numb.cells,numb.cells)
   NtoRemove=round((1-cover)*numb.cells*numb.cells);
   while(NtoRemove>0)
   {
-    i=round(runif(1,0,numb.cells-1));
-    j=round(runif(1,0,numb.cells-1));
+    i=round(runif(1,1,numb.cells));
+    j=round(runif(1,1,numb.cells));
     # tests to see if this point has already been removed
-    if(scape[1+numb.cells*j+i] == 1) {
+    if(scape[i,j] == 1) {
       NtoRemove = NtoRemove - 1
-      scape[1+numb.cells*j+i] = 0
+      scape[i,j] = 0
     }
   }
   return (scape)
 }
 
 blobLandscape <- function(numb.cells, cover) {
-	scape <- rep(1, numb.cells*numb.cells)
+	scape <- matrix(1, numb.cells,numb.cells)
   NtoRemove=round((1-cover)*numb.cells*numb.cells);
-  i=round(runif(1,0,numb.cells-1));
-  j=round(runif(1,0,numb.cells-1));
+  i=round(runif(1,1,numb.cells));
+  j=round(runif(1,1,numb.cells));
   while(NtoRemove>0)
   {
     # tests to see if this point has already been removed
-    if(scape[1+numb.cells*j+i] == 1) {
+    if(scape[i,j] == 1) {
       NtoRemove = NtoRemove - 1
-      scape[1+numb.cells*j+i] = 0
+      scape[i,j] = 0
     }
     # Draft a new point to be removed (random walk!)
     if(sample(1:2,1) == 1) {
@@ -104,10 +104,10 @@ blobLandscape <- function(numb.cells, cover) {
     } else {
       j = j + (-1)**sample(1:2,1)
     }
-    if(i == -1) { i=numb.cells-1}
-    if(i == numb.cells) { i=1}
-    if(j == -1) { j=numb.cells-1}
-    if(j == numb.cells) { j=1}
+    if(i == 0) { i=numb.cells}
+    if(i == numb.cells+1) { i=1}
+    if(j == 0) { j=numb.cells}
+    if(j == numb.cells+1) { j=1}
   }
   return(scape)
 }
@@ -145,15 +145,17 @@ fahrigLandscape <- function(numb.cells, cover, frag) {
       }
     }  
   }
-  return(as.numeric(scape))
+  return(scape)
 }
 
 discLandscape <- function(numb.cells) {
-	scape <- rep(1, numb.cells*numb.cells)
-  for (i in 1:numb.cells-1)
-    for (j in 1:numb.cells-1) 
-      if((i-numb.cells/2)*(i-numb.cells/2)+(j-numb.cells/2)*(j-numb.cells/2) > numb.cells*numb.cells/4)
-        scape[numb.cells*j+i] = 0
-  scape[numb.cells*numb.cells] = 0
+	scape <- matrix(1, numb.cells,numb.cells)
+  for (i in 1:numb.cells)
+    for (j in 1:numb.cells) 
+      if(
+         (i-.5-numb.cells/2)*(i-.5-numb.cells/2)+(j-.5-numb.cells/2)*(j-.5-numb.cells/2) >
+         numb.cells*numb.cells/4
+         )
+        scape[i,j] = 0
   return(scape)
 }
