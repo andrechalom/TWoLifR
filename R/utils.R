@@ -93,7 +93,8 @@ GillespieStep <- function(landscape) {
 #' algorithm until a final time is reached. \code{runSSim} runs a single-species simulation and passes
 #' all parameters as named to the Landscape or Species constructor.
 #' 
-#' Exponential is just a wrapper for runSSim that enforces that the model is a simple exponential growth.
+#' Exponential and Logistic are just wrappers for runSSim that enforce that the model is a simple 
+#' exponential / logistic growth.
 #' @param maxtime Maximum simulation running time
 #' @param N initial population size
 #' @param \dots further arguments that will be passed to Landscape or Species. All options specified
@@ -123,6 +124,13 @@ runSSim <- function(maxtime, N, ...) {
 #' @export
 #' @rdname runSSim
 Exponential <- function(maxtime, N, ...) {
-  dots <- modifyList(list(...), list(numb.cells=1, cover=1, incl.birth=0, incl.death=0, move.rate=0))
-  do.call(runSSim, c(list(maxtime=maxtime, N=N, dots)))
+  dots <- modifyList(list(...), list(numb.cells=1, cover=1, radius=0, incl.birth=0, incl.death=0, move.rate=0))
+  do.call(runSSim, c(list(maxtime=maxtime, N=N), dots))
+}
+
+#' @export 
+#' @rdname runSSim
+Logistic <- function(maxtime, N, ...) {
+  dots <- modifyList(list(...), list(numb.cells=1, cover=1, move.rate=0))
+  do.call(runSSim, c(list(maxtime=maxtime, N=N), dots))
 }

@@ -49,7 +49,10 @@ drop.neighbors <- function(x) {
 
 # internal: sets the vital rates
 setrates <- function (x) {
-  density <- length(x$neighbors) / (base::pi * x$species$radius^2)
+  if(x$species$radius)
+    density <- length(x$neighbors) / (base::pi * x$species$radius^2)
+  else
+    density <- 0
   if (whereami(x) == 0) { # on the matrix
     x$real.birth = 0
     x$real.death = x$species$matrix.death * x$species$death.rate + density * this$species$incl.death
