@@ -116,7 +116,8 @@ blobLandscape <- function(numb.cells, cover) {
 
 fahrigLandscape <- function(numb.cells, cover, frag) {
   scape=matrix(rep(0, numb.cells*numb.cells),numb.cells,numb.cells)
-  while(sum(scape)<round(numb.cells*numb.cells*cover))
+  NtoAdd <- round(cover*numb.cells*numb.cells)
+  while(sum(scape)<NtoAdd)
   {
     chosen.cell=sample(1:numb.cells,2,replace=T)
     neigh.cells=matrix(c(chosen.cell[1],chosen.cell[2]+1,chosen.cell[1]-1,chosen.cell[2],chosen.cell[1],
@@ -128,23 +129,13 @@ fahrigLandscape <- function(numb.cells, cover, frag) {
       rnd=runif(1,0,1)
       is.habitat=0
       if(length(out.land)>0)
-      {
         for(i in n.neigh[-out.land])
-        {
           is.habitat=is.habitat+scape[neigh.cells[i,1],neigh.cells[i,2]]
-        }
-      }
       else
-      {
         for(i in n.neigh)
-        {
           is.habitat=is.habitat+scape[neigh.cells[i,1],neigh.cells[i,2]]
-        }
-      }
       if(rnd<frag | is.habitat>0) 
-      {
         scape[chosen.cell[1],chosen.cell[2]]=1
-      }
     }  
   }
   return(scape)

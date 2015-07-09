@@ -47,7 +47,8 @@ sqDist <- function(a1, a2) {
 #' A common usage for it is: \code{while(L$clock < maxtime) print(NGillespieStep(L))}
 #'
 #' GillespieStep gives similar results, but using some optimization based on how exponential
-#' random variables work. 
+#' random variables work. The simulation routines all use GillespieStep, but the other implementation
+#' is provided to validate results.
 #' @export
 #' @rdname GillespieStep
 NGillespieStep <- function(landscape) {
