@@ -45,6 +45,7 @@ drop.neighbors <- function(x) {
       other$neighbors[[ whoami(x, other$neighbors) ]] <- NULL
       setrates(other)
     }
+  x$neighbors <- list() # empties own neigh list
 }
 
 # internal: sets the vital rates

@@ -39,7 +39,8 @@ Landscape <- function (numb.cells = 100, type=c("random","blob","fahrig","disc")
 
 #' @export
 print.landscape <- function(x, ...) {
-  cat(paste0("Landscape object.\n  Type ", x$type, ", boundary ", x$bound.condition,
+  cat(paste0("Landscape object, internal clock: ", round(x$clock,4), ".\n",
+             "  Type ", x$type, ", boundary ", x$bound.condition,
              ", height/width ", x$numb.cells, " habitat cover ", round(100*x$cover),"%\n"))
   lapply(x$specieslist, print) -> ignoreResult
 }
