@@ -19,7 +19,8 @@ Species(landscape, birth.rate = 1, death.rate = 0.1, incl.birth = 500,
 
 \item{incl.death}{the slope in which the death rate increases with increasing density}
 
-\item{radius}{the perception radius of the species.}
+\item{radius}{the perception radius of the species. Setting this to zero will turn off all the neighbor
+detection, so only use radius=0 if you really want exponential growth!}
 
 \item{matrix.death}{a constant multiplying the death rate in non-habitat patches (Currently unimplemented!)}
 
@@ -32,6 +33,13 @@ Species(landscape, birth.rate = 1, death.rate = 0.1, incl.birth = 500,
 \description{
 Currently, every simulation contains a single species that must be created using this function.
 }
+\section{Details}{
+
+
+Use this class to set up new species. Currently, the individuals only interact with individuals
+of the same species (that is, multiple species on the same landscape are totally independent).
+}
+
 \section{WARNING}{
 
 

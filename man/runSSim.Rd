@@ -2,12 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{runSSim}
 \alias{Exponential}
+\alias{Logistic}
 \alias{runSSim}
 \title{Simulation routines}
 \usage{
 runSSim(maxtime, N, ...)
 
 Exponential(maxtime, N, ...)
+
+Logistic(maxtime, N, ...)
 }
 \arguments{
 \item{maxtime}{Maximum simulation running time}
@@ -23,6 +26,7 @@ algorithm until a final time is reached. \code{runSSim} runs a single-species si
 all parameters as named to the Landscape or Species constructor.
 }
 \details{
-Exponential is just a wrapper for runSSim that enforces that the model is a simple exponential growth.
+Exponential and Logistic are just wrappers for runSSim that enforce that the model is a simple
+exponential / logistic growth.
 }
 
