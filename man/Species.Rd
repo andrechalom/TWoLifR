@@ -4,7 +4,7 @@
 \alias{Species}
 \title{Creates a new species}
 \usage{
-Species(landscape, birth.rate = 1, death.rate = 0.1, incl.birth = 500,
+Species(landscape, birth.rate = 1, death.rate = 0.1, incl.birth = 5,
   incl.death = 0, radius = 5, matrix.death = 10, move.rate = 1,
   step = 1, visual.angle = base::pi/4)
 }

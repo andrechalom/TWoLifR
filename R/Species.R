@@ -25,7 +25,7 @@
 #'
 #' @export
 Species <- function(landscape, birth.rate = 1, death.rate = 0.1,  
-                    incl.birth = 500, incl.death = 0,
+                    incl.birth = 5, incl.death = 0,
                     radius = 5, matrix.death = 10, move.rate = 1, step = 1, visual.angle = base::pi/4) {
   if (class(landscape) != "landscape")
     stop ("landscape must be of class landscape!")
@@ -38,7 +38,7 @@ Species <- function(landscape, birth.rate = 1, death.rate = 0.1,
    sp$birth.death.eq = death.rate + incl.death*((birth.rate - death.rate) / (incl.birth + incl.death))
   }
   # prepares the population list
-  sp$maxid <- 0; sp$population <- list()
+  sp$maxid <- 0; sp$population <- linkedList()
   # adds itself to the landscape list
   landscape$maxsp = landscape$maxsp + 1
   sp$id = landscape$maxsp
@@ -56,7 +56,7 @@ print.species <- function(x, ...) {
 #' @export
 #' @import graphics
 plot.species <- function(x, ...) {
-  lapply(x$population, plot, col=x$id, ...)
+  .map(x$population, plot, col=x$id, ...)
 }
 
 # internal: convenience to return 0 for function populate

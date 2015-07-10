@@ -14,11 +14,11 @@ Individual <- function(species, x = 0, y = 0) {
   species$maxid = species$maxid + 1
   ind <- new.env()
   ind$species <- species;
-  ind$neighbors <- list() # list will be constructed by add.neighbors below
+  ind$neighbors <- linkedList() # list will be constructed by add.neighbors below
   ind$x=x; ind$y=y; ind$id = species$maxid
   ind$orientation = runif(1, 0, 2*base::pi)
   class(ind) <- "individual"
-  species$population <- c(species$population, ind)
+  species$population <- .push(species$population, ind)
   ind <- apply.bc(ind)# applying the boundary condition MIGHT kill the individual, so it returns NULL
   if (!is.null(ind)) {add.neighbors(ind); setrates(ind)}
   return(ind) 
@@ -26,26 +26,26 @@ Individual <- function(species, x = 0, y = 0) {
 
 # adds itself to other neighborhoods, and adds others into x neighborhood
 add.neighbors <- function(x) {
-  x$neighbors <- list() # starts afresh
+  x$neighbors <- linkedList() # starts afresh
   rad2 = x$species$radius^2
   if (rad2 == 0) return(); # no neighbors can be detected
-  for (other in x$species$population) {
+  .map(x$species$population, function(other) {
     if (! identical(x, other) && sqDist(x, other) < rad2) {
-      x$neighbors <- c(x$neighbors, other)
-      other$neighbors <- c(other$neighbors, x)
+      x$neighbors <- .push(x$neighbors, other)
+      other$neighbors <- .push(other$neighbors, x)
       setrates(other)
     }
-  }
+  })
 }
 
 # drops itself from other neighborhoods (before dying or moving)
 drop.neighbors <- function(x) {
-  if (length(x$neighbors))
-    for (other in x$neighbors) {
-      other$neighbors[[ whoami(x, other$neighbors) ]] <- NULL
+  if (length(x$neighbors)) #is this check necessary??
+    .map(x$neighbors, function(other) {
+      other$neighbors <- .drop(other$neighbors, x)
       setrates(other)
-    }
-  x$neighbors <- list() # empties own neigh list
+    })
+  x$neighbors <- linkedList() # empties own neigh list
 }
 
 # internal: sets the vital rates
@@ -111,18 +111,12 @@ move <- function(x) {
   }
 }
 
-# finds the index of x in the list l
-whoami <- function(x, l) {
-  f <- function(i) identical(i, x)
-  which(sapply(l, f)) # this REALLY should be optimized!!!
-}
-
 # deletes the individual from the population
 die <- function(x) {
   # removes x from neighborhoods
   drop.neighbors(x)
   # removes x from population
-  x$species$population[[ whoami(x, x$species$population) ]] <- NULL
+  x$species$population <- .drop(x$species$population, x)
 }
 
 # non-sexual reproduction

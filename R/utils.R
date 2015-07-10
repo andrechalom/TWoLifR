@@ -49,27 +49,27 @@ sqDist <- function(a1, a2) {
 #' GillespieStep gives similar results, but using some optimization based on how exponential
 #' random variables work. The simulation routines all use GillespieStep, but the other implementation
 #' is provided to validate results.
-#' @export
+# @export
 #' @rdname GillespieStep
-NGillespieStep <- function(landscape) {
-  if (class(landscape) != "landscape")
-    stop ("landscape must be of class landscape!")
-  sp <- 0; ind <- 0; time <- Inf
-  for (i in 1:length(landscape$specieslist)) {
-    pop <- landscape$specieslist[[i]]$population
-    if(length(pop) > 0 ) for (j in 1:length(pop)) {
-      draw = rexp(1, rate=pop[[j]]$sumrates)
-      if (draw < time) {
-        sp = i; ind = j; time = draw
-      }
-    }
-  }
-  # increments the world clock
-  landscape$clock = landscape$clock + time
-  # makes the chosen individual act
-  act(landscape$specieslist[[sp]]$population[[ind]])
-  return(landscape$clock)
-}
+#NGillespieStep <- function(landscape) {
+#  if (class(landscape) != "landscape")
+#    stop ("landscape must be of class landscape!")
+#  sp <- 0; ind <- 0; time <- Inf
+#  for (i in 1:length(landscape$specieslist)) {
+#    pop <- landscape$specieslist[[i]]$population
+#    if(pop$length > 0 ) for (j in 1:length(pop)) {
+#      draw = rexp(1, rate=pop[[j]]$sumrates)
+#      if (draw < time) {
+#        sp = i; ind = j; time = draw
+#      }
+#    }
+#  }
+#  # increments the world clock
+#  landscape$clock = landscape$clock + time
+#  # makes the chosen individual act
+#  act(landscape$specieslist[[sp]]$population[[ind]])
+#  return(landscape$clock)
+#}
 
 #' @export
 #' @param landscape a landscape object
@@ -78,7 +78,7 @@ GillespieStep <- function(landscape) {
     stop ("landscape must be of class landscape!")
   if (length(landscape$specieslist) > 1) 
     stop ("This algorithm is currently implemented for one species only")
-  rates <- sapply(landscape$specieslist[[1]]$population, function(i) i$sumrates)
+  rates <- sum(.apply(landscape$specieslist[[1]]$population, function(i) i$sumrates))
   ind <- sample(1:length(rates), 1, prob=rates)
   time <- rexp(1, sum(rates))
   # increments the world clock
@@ -109,14 +109,14 @@ runSSim <- function(maxtime, N, ...) {
   S <- do.call(Species, c(list(landscape=L), dots[sopts]))
   do.call(populate, c(list(species=S, N=N), dots[!lopts && !sopts]))
   pop.over.time <- total.N(L)
-  print(system.time(
+
   while(total.N(L) & L$clock < maxtime) {
     oldtime = L$clock
     GillespieStep(L)
     if (round(oldtime) != round(L$clock))
       pop.over.time <- c(pop.over.time, total.N(L))
   }
-  ))
+
   pop.over.time <- c(pop.over.time, total.N(L))
   return(list(Landscape=L, pop.over.time=pop.over.time))
 }
