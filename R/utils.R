@@ -27,16 +27,17 @@ dist <- function(a1, a2) {
 #' @export
 #' @rdname dist
 sqDist <- function(a1, a2) {
-  bc <- a1$species$landscape$bound.condition
+  bc <- a1$bc
   if (bc == "periodical") {
-    x1=a1$x; x2=a2$x; y1=a1$y; y2=a2$y; l = a1$species$landscape$numb.cells
+    x1=a1$x; x2=a2$x; y1=a1$y; y2=a2$y; l = a1$landscape$numb.cells
     if (x1 > x2) dx = x1-x2 else dx = x2-x1;
     if (y1 > y2) dy = y1-y2 else dy = y2-y1;
     if (dx > l - dx) dx = l - dx; 
     if (dy > l - dy) dy = l - dy;
     return (dx*dx + dy*dy)
   } else {
-    return ( (a1$x-a2$x)*(a1$x-a2$x) + (a1$y-a2$y)*(a1$y-a2$y) )
+    x1=a1$x; x2=a2$x; y1=a1$y; y2=a2$y;
+    return ( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) )
   }
 }
 

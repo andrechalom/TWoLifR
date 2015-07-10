@@ -54,16 +54,10 @@ length.linkedList <- function(list) {
   return(a)
 }
 
-#' @rdname linkedList
-#' @export
-isLinkedList <- function(list) class(list) == "linkedList"
-
 #' \code{.push()} adds a new element to a list, and returns the larger list
-#' TODO: should be a side effect, actually!!!!
 #' @rdname linkedList
 #' @export
 .push <- function(list, content) {
-  stopifnot(isLinkedList(list))
   # creates a new node for storing the content
   new <- .node(content, list$head)
   a <- list(); class(a) = "linkedList"
@@ -74,11 +68,9 @@ isLinkedList <- function(list) class(list) == "linkedList"
 
 #' \code{.drop()} removes the first occurrence of 'content' in a list and returns the resulting list.
 #' \code{.drop()} compares elements using the function \code{identical}.
-#' TODO: should be a side effect, actually!!!!
 #' @rdname linkedList
 #' @export
 .drop <- function(list, content) {
-  stopifnot(isLinkedList(list))
   n <- list$head
   while(! is.null(n$content)) {
     if (identical(n$content, content)) { # found it! dropping!

@@ -9,7 +9,6 @@
 \alias{[[.linkedList}
 \alias{as.list.linkedList}
 \alias{as.vector.linkedList}
-\alias{isLinkedList}
 \alias{length.linkedList}
 \alias{linkedList}
 \alias{print.linkedList}
@@ -22,8 +21,6 @@ linkedList()
 \method{length}{linkedList}(list)
 
 .node(content, points.to = NULL)
-
-isLinkedList(list)
 
 .push(list, content)
 
@@ -56,11 +53,9 @@ as.vector.linkedList(list, mode)
 \code{.node()} creates a node with specified content
 
 \code{.push()} adds a new element to a list, and returns the larger list
-TODO: should be a side effect, actually!!!!
 
 \code{.drop()} removes the first occurrence of 'content' in a list and returns the resulting list.
 \code{.drop()} compares elements using the function \code{identical}.
-TODO: should be a side effect, actually!!!!
 
 Both \code{.map()} and \code{.apply()} apply a function over all the elements of a list.
 Their difference is that .apply returns a numerical vector with the same length as the linkedList,

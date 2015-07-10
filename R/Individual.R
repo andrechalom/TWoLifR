@@ -15,6 +15,15 @@ Individual <- function(species, x = 0, y = 0) {
   ind <- new.env()
   ind$species <- species;
   ind$neighbors <- linkedList() # list will be constructed by add.neighbors below
+  # "caching" as these are used frequently
+  ind$landscape = species$landscape
+  ind$corn <- ind$landscape$numb.cells/2 + 0.5 
+  ind$rad2 <- species$radius^2
+  ind$matrix.death = species$matrix.death;
+  ind$death.rate = species$death.rate; ind$incl.death = species$incl.death
+  ind$birth.rate = species$birth.rate; ind$incl.birth = species$incl.birth
+  ind$move.rate = species$move.rate
+  ind$bc = ind$landscape$bound.condition
   ind$x=x; ind$y=y; ind$id = species$maxid
   ind$orientation = runif(1, 0, 2*base::pi)
   class(ind) <- "individual"
@@ -26,8 +35,8 @@ Individual <- function(species, x = 0, y = 0) {
 
 # adds itself to other neighborhoods, and adds others into x neighborhood
 add.neighbors <- function(x) {
+  rad2 = x$rad2
   x$neighbors <- linkedList() # starts afresh
-  rad2 = x$species$radius^2
   if (rad2 == 0) return(); # no neighbors can be detected
   .map(x$species$population, function(other) {
     if (! identical(x, other) && sqDist(x, other) < rad2) {
@@ -56,13 +65,13 @@ setrates <- function (x) {
     density <- 0
   if (whereami(x) == 0) { # on the matrix
     x$real.birth = 0
-    x$real.death = x$species$matrix.death * x$species$death.rate + density * this$species$incl.death
+    x$real.death = x$matrix.death * x$death.rate + density * this$incl.death
   } else { # on habitat
-    x$real.birth = x$species$birth.rate - x$species$incl.birth * density
-    x$real.death = x$species$death.rate + x$species$incl.death * density
+    x$real.birth = x$birth.rate - x$incl.birth * density
+    x$real.death = x$death.rate + x$incl.death * density
     if(x$real.birth < 0) x$real.birth = 0
   }
-  x$sumrates = x$species$move.rate + x$real.birth + x$real.death
+  x$sumrates = x$move.rate + x$real.birth + x$real.death
 }
 
 #' @export
@@ -81,9 +90,8 @@ print.individual <- function(x, ...) {
 
 # internal: applies boundary condition to the individual position
 apply.bc <- function(x) {
-  bc <- x$species$landscape$bound.condition
-  size <- x$species$landscape$numb.cells/2
-  if (bc == "absorptive") {
+  size <- x$landscape$numb.cells/2
+  if (x$bc == "absorptive") {
     if (abs(x$x) > size | abs(x$y) > size) {
       die(x); return(NULL)
     }
@@ -135,6 +143,6 @@ act <- function(x) {
 
 # returns the habitat information for the individual (0 = matrix, 1 = habitat)
 whereami <- function(x) {
-  corn <- x$species$landscape$numb.cells/2 + 0.5
-  x$species$landscape$scape[ round(x$x + corn), round(x$y + corn)]
+  j = round(x$y + x$corn); i = round(x$x + x$corn)
+  x$landscape$scape[i,j]
 }
