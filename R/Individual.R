@@ -65,7 +65,7 @@ setrates <- function (x) {
     density <- 0
   if (whereami(x) == 0) { # on the matrix
     x$real.birth = 0
-    x$real.death = x$matrix.death * x$death.rate + density * this$incl.death
+    x$real.death = x$matrix.death * x$death.rate + x$incl.death * density
   } else { # on habitat
     x$real.birth = x$birth.rate - x$incl.birth * density
     x$real.death = x$death.rate + x$incl.death * density
