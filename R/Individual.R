@@ -17,6 +17,8 @@ Individual <- function(species, x = 0, y = 0) {
   ind$neighbors <- linkedList() # list will be constructed by add.neighbors below
   # "caching" as these are used frequently
   ind$landscape = species$landscape
+  # "corn" is a correction added to the x,y positions to translate them into
+  # indexes for the landscape matrix
   ind$corn <- ind$landscape$numb.cells/2 + 0.5 
   ind$rad2 <- species$radius^2
   ind$matrix.death = species$matrix.death;
