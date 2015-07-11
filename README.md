@@ -56,8 +56,9 @@ TWoLifR currently comes with some functions to automate running simulations, suc
 all the arguments that can be passed to `Landscape`, `Species` and `populate`, and run a full simulation.
 To run a simulation similar to the one we constructed above, run
 ```R
-newsim <- runSSim(maxtime=10, N=50, type='fahrig', cover=0.4, numb.cells=50, frag=0.01,
-    birth.rate=1, death.rate=0.1, move.rate=1, matrix.death=9, FUN=runif, min=-25, max=25)
+newsim <- runSSim(maxtime=10, N=50, type='fahrig', cover=0.4, 
+    numb.cells=50, frag=0.01, birth.rate=1, death.rate=0.1, move.rate=1, 
+    matrix.death=9, FUN=runif, min=-25, max=25)
 ```
 
 The object generated contains the final state of the landscape, as well as a vector showing total
@@ -75,6 +76,11 @@ syntax. It is strongly advised to read Hadley Wickham's chapter on [Environments
 (http://adv-r.had.co.nz/Environments.html) before working with this package. The
 classes `Landscape`, `Species`, `Individual` and linked lists are all implemented
 as R environments.
+
+The basic data structure used for keeping track of the individuals in a population is a linked
+list, as it is much more efficient to insert and delete values in a specified position of a linked 
+list than it is using vectors. A very basic (fully R) implementation of linked lists is provided
+in this package; see `?linkedList` for details.
 
 ## To-do lists and issues
 
