@@ -43,35 +43,11 @@ sqDist <- function(a1, a2) {
 
 #' Gillespie algorithm
 #' 
-#' NGillespieStep implements a naive Gillespie algorithm for advancing time in the simulation. 
+#' GillespieStep implements a Gillespie algorithm for advancing time in the simulation. 
 #' It changes the objects in the Landscape as side-effect, and returns the total elapsed time.
 #' A common usage for it is: \code{while(L$clock < maxtime) print(NGillespieStep(L))}
 #'
-#' GillespieStep gives similar results, but using some optimization based on how exponential
-#' random variables work. The simulation routines all use GillespieStep, but the other implementation
-#' is provided to validate results.
-# @export
-#' @rdname GillespieStep
-#NGillespieStep <- function(landscape) {
-#  if (class(landscape) != "landscape")
-#    stop ("landscape must be of class landscape!")
-#  sp <- 0; ind <- 0; time <- Inf
-#  for (i in 1:length(landscape$specieslist)) {
-#    pop <- landscape$specieslist[[i]]$population
-#    if(pop$length > 0 ) for (j in 1:length(pop)) {
-#      draw = rexp(1, rate=pop[[j]]$sumrates)
-#      if (draw < time) {
-#        sp = i; ind = j; time = draw
-#      }
-#    }
-#  }
-#  # increments the world clock
-#  landscape$clock = landscape$clock + time
-#  # makes the chosen individual act
-#  act(landscape$specieslist[[sp]]$population[[ind]])
-#  return(landscape$clock)
-#}
-
+#' This function uses some optimization based on how exponential random variables work.
 #' @export
 #' @param landscape a landscape object
 GillespieStep <- function(landscape) {
