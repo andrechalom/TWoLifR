@@ -55,12 +55,13 @@ GillespieStep <- function(landscape) {
     stop ("landscape must be of class landscape!")
   if (length(landscape$specieslist) > 1) 
     stop ("This algorithm is currently implemented for one species only")
-  rates <- sum(.apply(landscape$specieslist[[1]]$population, function(i) i$sumrates))
+  rates <- .apply(landscape$specieslist[[1]]$population, function(i) i$sumrates)
   ind <- sample(1:length(rates), 1, prob=rates)
   time <- rexp(1, sum(rates))
   # increments the world clock
   landscape$clock = landscape$clock + time
   # makes the chosen individual act
+  cat("DEBUGS: ", landscape$specieslist[[1]]$population[[ind]]$id, "\n")
   act(landscape$specieslist[[1]]$population[[ind]])
   return(landscape$clock)
 }

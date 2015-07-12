@@ -24,7 +24,7 @@ linkedList()
 
 .push(list, content)
 
-.drop(list, content)
+.drop(list, node)
 
 .map(list, FUN, ...)
 
@@ -58,9 +58,10 @@ as.vector.linkedList(list, mode)
 \code{.node()} creates a node with specified content
 
 \code{.push()} adds a new element to a list, and returns the larger list
+WARNING: this method modifies the first argument as a side effect
 
-\code{.drop()} removes the first occurrence of 'content' in a list and returns the resulting list.
-\code{.drop()} compares elements using the function \code{identical}.
+\code{.drop()} removes the node passed as the second argument
+WARNING: this method modifies the first argument as a side effect
 
 Both \code{.map()} and \code{.apply()} apply a function over all the elements of a list.
 Their difference is that .apply returns a numerical vector with the same length as the linkedList,

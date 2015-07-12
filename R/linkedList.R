@@ -111,11 +111,11 @@ length.linkedList <- function(list) {
 #' @rdname linkedList
 #' @export
 as.list.linkedList <- function(list) {
-  result <- vector(mode="list", length=list$length) # prealocates the resulting list
-  n <- list$head
-  for (i in 1:list$length) {# some smarter "apply" here would be helpful!
+  result <- list()
+  n <- list$head; i = 1;
+  while(!is.null(n$content)) {# some smarter "apply" here would be helpful!
     result[[i]] <- n$content
-    n <- n$points.to
+    n <- n$points.to; i = i + 1
   }
   return(result)
 }

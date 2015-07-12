@@ -73,8 +73,9 @@ add.neighbors <- function(x) {
 # drops itself from other neighborhoods (before dying or moving)
 drop.neighbors <- function(x) {
   if (length(x$neighbors)) #is this check necessary??
-    .map(x$neighbors, function(other) {
-      .drop(other$neighbors, x)
+    .map(x$neighbors, function(otherp) {
+      other = otherp$ind
+      .drop(other$neighbors, otherp$ref)
       setrates(other)
     })
   x$neighbors <- linkedList() # empties own neigh list
@@ -147,7 +148,7 @@ die <- function(x) {
   # removes x from neighborhoods
   drop.neighbors(x)
   # removes x from population
-  .drop(x$species$population, ind$pposition)
+  .drop(x$species$population, x$pposition)
 }
 
 # non-sexual reproduction
