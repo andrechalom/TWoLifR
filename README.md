@@ -77,8 +77,9 @@ syntax. It is strongly advised to read Hadley Wickham's chapter on [Environments
 classes `Landscape`, `Species`, `Individual` and linked lists are all implemented
 as R environments.
 
-The basic data structure used for keeping track of the individuals in a population is a linked
-list, as it is much more efficient to insert and delete values in a specified position of a linked 
+The basic data structure used for keeping track of the individuals in a population is a 
+[linked list] (https://en.wikipedia.org/wiki/Linked_list),
+as it is much more efficient to insert and delete values in a specified position of a linked 
 list than it is using vectors. A very basic (fully R) implementation of linked lists is provided
 in this package; see `?linkedList` for details.
 

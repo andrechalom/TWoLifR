@@ -10,13 +10,11 @@ GillespieStep(landscape)
 \item{landscape}{a landscape object}
 }
 \description{
-NGillespieStep implements a naive Gillespie algorithm for advancing time in the simulation.
+GillespieStep implements a Gillespie algorithm for advancing time in the simulation.
 It changes the objects in the Landscape as side-effect, and returns the total elapsed time.
 A common usage for it is: \code{while(L$clock < maxtime) print(NGillespieStep(L))}
 }
 \details{
-GillespieStep gives similar results, but using some optimization based on how exponential
-random variables work. The simulation routines all use GillespieStep, but the other implementation
-is provided to validate results.
+This function uses some optimization based on how exponential random variables work.
 }
 

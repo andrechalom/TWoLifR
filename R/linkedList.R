@@ -128,6 +128,8 @@ as.list.linkedList <- function(list) {
   return(result)
 }
 
+#' @param mode optional character string specifying the mode of the vector created by
+#' \code{as.vector()}. If left blank, mode will be inferred from the first element.
 #' @rdname linkedList
 #' @export
 as.vector.linkedList <- function(list, mode) {
@@ -144,6 +146,7 @@ as.vector.linkedList <- function(list, mode) {
 
 #' The [[ ]] operator is provided for accessing the content of the i-th element 
 #' in a linked list, but notice that this is a time consuming operation!
+#' @param i position in the list that should be returned. Note that the last element pushed is the element 1!
 #' @rdname linkedList
 #' @export
 '[[.linkedList' <- function(list, i) {

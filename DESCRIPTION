@@ -5,7 +5,8 @@ Authors@R: c(
   person("Andre", "Chalom", email = "andrechalom@gmail.com", role = c("aut", "cre")),
   person("Paulo", "Prado", email = "prado@ib.usp.br", role = c("aut")),
   person("Marcelo", "Awade", email = "awadem@gmail.com", role = c("aut")),
-  person("Camila", "Mandai", email = "cayumandai@gmail.com", role = c("aut"))
+  person("Camila", "Mandai", email = "cayumandai@gmail.com", role = c("aut")),
+  person("Mali", "Salles", email = "marinacs@gmail.com", role = c("aut"))
   )
 Description: This package aims to implement a Gillespie algorithm for individual based models of
   birth, death and movement.

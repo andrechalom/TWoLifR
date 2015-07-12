@@ -45,6 +45,11 @@ as.vector.linkedList(list, mode)
 
 \item{FUN}{function to be applied}
 
+\item{mode}{optional character string specifying the mode of the vector created by
+\code{as.vector()}. If left blank, mode will be inferred from the first element.}
+
+\item{i}{position in the list that should be returned. Note that the last element pushed is the element 1!}
+
 \item{\dots}{additional arguments to be passed to FUN}
 }
 \description{
