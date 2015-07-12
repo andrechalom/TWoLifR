@@ -11,23 +11,30 @@
 Individual <- function(species, x = 0, y = 0) {
   if (class(species) != "species")
     stop ("species must be of class species!")
-  species$maxid = species$maxid + 1
   ind <- new.env()
+  # position and movement direction
+  ind$x=x; ind$y=y; 
+  ind$orientation = runif(1, 0, 2*base::pi)
+  # unique identifier
   ind$species <- species;
+  species$maxid = species$maxid + 1
+  ind$id = species$maxid
   ind$neighbors <- linkedList() # list will be constructed by add.neighbors below
   # "caching" as these are used frequently
   ind$landscape = species$landscape
   # "corn" is a correction added to the x,y positions to translate them into
   # indexes for the landscape matrix
   ind$corn <- ind$landscape$numb.cells/2 + 0.5 
+  # squared radius of neighbourhood
   ind$rad2 <- species$radius^2
+  # rates
   ind$matrix.death = species$matrix.death;
   ind$death.rate = species$death.rate; ind$incl.death = species$incl.death
   ind$birth.rate = species$birth.rate; ind$incl.birth = species$incl.birth
   ind$move.rate = species$move.rate
+  # boudary condition
   ind$bc = ind$landscape$bound.condition
-  ind$x=x; ind$y=y; ind$id = species$maxid
-  ind$orientation = runif(1, 0, 2*base::pi)
+
   class(ind) <- "individual"
   species$population <- .push(species$population, ind)
   ind <- apply.bc(ind)# applying the boundary condition MIGHT kill the individual, so it returns NULL
