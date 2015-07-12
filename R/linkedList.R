@@ -21,7 +21,7 @@
 #' @export
 linkedList <- function () {
   # creates a new EMPTY node to be this list head
-  a <- list(); class(a) = "linkedList"
+  a <- new.env(); class(a) = "linkedList"
   a$head = .node(NULL)
   a$length = 0
   return(a)
@@ -60,10 +60,9 @@ length.linkedList <- function(list) {
 .push <- function(list, content) {
   # creates a new node for storing the content
   new <- .node(content, list$head)
-  a <- list(); class(a) = "linkedList"
-  a$head = new
-  a$length = list$length + 1
-  return(a)
+  list$head = new
+  list$length = list$length+1
+  return(list)
 }
 
 #' \code{.drop()} removes the first occurrence of 'content' in a list and returns the resulting list.
