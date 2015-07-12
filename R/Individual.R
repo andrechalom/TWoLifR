@@ -47,10 +47,23 @@ add.neighbors <- function(x) {
   rad2 = x$rad2
   x$neighbors <- linkedList() # starts afresh
   if (rad2 == 0) return(); # no neighbors can be detected
+  # create content to populate other's lists
+  content1 = list()
+  content1$ind = x
+  # .map acts as a loop
   .map(x$species$population, function(other) {
+    # if other is in neighbourhood radius, add as neighbour
     if (! identical(x, other) && sqDist(x, other) < rad2) {
-      x$neighbors <- .push(x$neighbors, other)
-      other$neighbors <- .push(other$neighbors, x)
+      # create content to populate own list
+      content2 = list()
+      content2$ind = other
+      # create new nodes in the lists
+      ref1 <- .push(other$neighbors,content1)
+      ref2 <- .push(x$neighbors,content2)
+      # add crossreference to the nodes
+      ref1$content$ref <- ref2
+      ref2$content$ref <- ref1
+      # update other
       setrates(other)
     }
   })
@@ -60,7 +73,7 @@ add.neighbors <- function(x) {
 drop.neighbors <- function(x) {
   if (length(x$neighbors)) #is this check necessary??
     .map(x$neighbors, function(other) {
-      other$neighbors <- .drop(other$neighbors, x)
+      .drop(other$neighbors, x)
       setrates(other)
     })
   x$neighbors <- linkedList() # empties own neigh list
@@ -133,7 +146,7 @@ die <- function(x) {
   # removes x from neighborhoods
   drop.neighbors(x)
   # removes x from population
-  x$species$population <- .drop(x$species$population, x)
+  .drop(x$species$population, x)
 }
 
 # non-sexual reproduction

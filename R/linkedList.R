@@ -55,6 +55,7 @@ length.linkedList <- function(list) {
 }
 
 #' \code{.push()} adds a new element to a list, and returns the larger list
+#' WARNING: this method modifies the first argument as a side effect
 #' @rdname linkedList
 #' @export
 .push <- function(list, content) {
@@ -62,25 +63,17 @@ length.linkedList <- function(list) {
   new <- .node(content, list$head)
   list$head = new
   list$length = list$length+1
-  return(list)
+  return(new)
 }
 
-#' \code{.drop()} removes the first occurrence of 'content' in a list and returns the resulting list.
-#' \code{.drop()} compares elements using the function \code{identical}.
+#' \code{.drop()} removes the node passed as the second argument
+#' WARNING: this method modifies the first argument as a side effect
 #' @rdname linkedList
 #' @export
-.drop <- function(list, content) {
-  n <- list$head
-  while(! is.null(n$content)) {
-    if (identical(n$content, content)) { # found it! dropping!
-      n$content = n$points.to$content
-      n$points.to = n$points.to$points.to
-      list$length = list$length - 1
-      break;
-    }
-    n <- n$points.to
-  }
-  return(list)
+.drop <- function(list, node) {
+  node$content = node$points.to$content
+  node$points.to = node$points.to$points.to
+  list$length = list$length - 1
 }
 
 #' Both \code{.map()} and \code{.apply()} apply a function over all the elements of a list.
