@@ -36,7 +36,8 @@ Individual <- function(species, x = 0, y = 0) {
   ind$bc = ind$landscape$bound.condition
 
   class(ind) <- "individual"
-  species$population <- .push(species$population, ind)
+  # places the individual in the population
+  ind$pposition <- .push(species$population, ind) 
   ind <- apply.bc(ind)# applying the boundary condition MIGHT kill the individual, so it returns NULL
   if (!is.null(ind)) {add.neighbors(ind); setrates(ind)}
   return(ind) 
@@ -146,7 +147,7 @@ die <- function(x) {
   # removes x from neighborhoods
   drop.neighbors(x)
   # removes x from population
-  .drop(x$species$population, x)
+  .drop(x$species$population, ind$pposition)
 }
 
 # non-sexual reproduction
