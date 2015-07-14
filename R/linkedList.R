@@ -43,14 +43,15 @@ length.linkedList <- function(list) {
 
 #' \code{.node()} creates a node with specified content
 #' @param content the content for the node that's being generated
-#' @param points.to next node in the list (if 'pushing', the old list head)
+#' @param after next node in the list (if 'pushing', the old list head)
 #' @rdname linkedList
 #' @export
-.node <- function(content, points.to = NULL) {
+.node <- function(content, before = NULL, after = NULL) {
   a <- new.env()
   class(a) = "node"
   a$content = content
-  a$points.to = points.to
+  a$before = before
+  a$after = after
   return(a)
 }
 
@@ -60,7 +61,9 @@ length.linkedList <- function(list) {
 #' @export
 .push <- function(list, content) {
   # creates a new node for storing the content
-  new <- .node(content, list$head)
+  head <- list$head
+  new <- .node(content,NULL, head)
+  head$before <- new
   list$head = new
   list$length = list$length+1
   return(new)
@@ -71,8 +74,20 @@ length.linkedList <- function(list) {
 #' @rdname linkedList
 #' @export
 .drop <- function(list, node) {
-  node$content = node$points.to$content
-  node$points.to = node$points.to$points.to
+  bef <- node$before
+  af  <- node$after
+  
+  if(!is.null(bef)) {
+    bef$after <- af
+  }
+  else {
+    list$head <- af
+  }
+
+  if(!is.null(af)) {
+    af$before <- bef
+  }
+  
   list$length = list$length - 1
 }
 
@@ -88,7 +103,7 @@ length.linkedList <- function(list) {
   dots <- list(...)
   while (!is.null(n$content)) {
     do.call(FUN, c(list(n$content), dots))
-    n <- n$points.to
+    n <- n$after
   }
 }
 
@@ -100,7 +115,7 @@ length.linkedList <- function(list) {
   dots <- list(...)
   while (!is.null(n$content)) {
     result[i] <- do.call(FUN, c(list(n$content), dots))
-    n <- n$points.to; i = i+1
+    n <- n$after; i = i+1
   }
   result
 }
@@ -115,7 +130,7 @@ as.list.linkedList <- function(list) {
   n <- list$head; i = 1;
   while(!is.null(n$content)) {# some smarter "apply" here would be helpful!
     result[[i]] <- n$content
-    n <- n$points.to; i = i + 1
+    n <- n$after; i = i + 1
   }
   return(result)
 }
@@ -131,7 +146,7 @@ as.vector.linkedList <- function(list, mode) {
   n <- list$head
   for (i in 1:list$length) {# some smarter "apply" here would be helpful!
     result[i] <- n$content
-    n <- n$points.to
+    n <- n$after
   }
   return(result)
 }
@@ -148,5 +163,5 @@ as.vector.linkedList <- function(list, mode) {
 
 .get <- function(node, i) {
   if(i==1) return (node$content)
-  .get(node$points.to, i-1)
+  .get(node$after, i-1)
 }
