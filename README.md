@@ -1,4 +1,7 @@
 # TWoLifR - The Walk of Life, on R
+
+**NOTICE:** Development on TWoLifR has been discontinued, as the performance of this package does not allow its use in large scale applications. See the [TWoLife](https://github.com/piLaboratory/TWoLife) project for a better alternative.
+
 An R library For Agent-Based Simulations of Demography in Heterogeneus Landscapes
 
 The TWoLife project aims to provide an implementation of the Gillespie algorithm for
